@@ -3,13 +3,27 @@
     src: url(../assets/AvertaDemo-Regular.otf) format('truetype')
 }
 
+.wave-container {
+    top:100%;
+    position: absolute;
+    transform: rotate(180deg);
+    width:100%;
+    z-index:-1;
+}
+
+.wave {
+    width:100%;
+}
+
 .form-container {
     align-items: center;
     background-color: #4898EE;
     display:flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 30vh;
+    min-height: 50vh;
+    padding-top:5rem;
+    position: relative;
     width: 100%;
 }
 

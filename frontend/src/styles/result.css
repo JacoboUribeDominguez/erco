@@ -1,0 +1,15 @@
+.result-container {
+    align-items: center;
+    color:white;
+    display:flex; 
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 4rem;
+}
+
+.result {
+    background-color: white;
+    border-radius: 7px;
+    color: #4898EE;
+    padding: 1rem;
+}

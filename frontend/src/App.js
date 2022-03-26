@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import './App.css';
 import Form from './components/Form';
 import Result from './components/Result';
-import { Context, ContextProvider } from './context/contex';
+import { Context } from './context/contex';
 import useFetch from './hooks/useFetch';
 
 function App() {
@@ -25,7 +25,6 @@ function App() {
   return (
     <div className="App">
       <Form />
-      <Result />
     </div>
   );
 }

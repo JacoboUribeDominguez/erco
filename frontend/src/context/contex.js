@@ -1,11 +1,14 @@
 import React, { createContext, useState } from 'react'
+import { CITY, COUNTRY, STATE } from '../constants/constants';
 
 export const Context = createContext();
 
 export const ContextProvider = ({ children }) => {
 
     const [countries, setCountries] = useState([]);
-    const [satates, setStates] = useState([]);
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [poblation, setPoblation] = useState(null);
     const [elementsActivated, ActivateElement] = useState({
         country: false,
         state: false,
@@ -14,19 +17,19 @@ export const ContextProvider = ({ children }) => {
 
     const ChangeAnElement = (element) => {
         switch(element){
-            case 'COUNTRY':
+            case COUNTRY:
                 ActivateElement({
                     ...elementsActivated,
                     country: !elementsActivated.country
                 })
                 break;
-            case 'STATE':
+            case STATE:
                 ActivateElement({
                     ...elementsActivated,
                     state: !elementsActivated.state
                 })
                 break;
-            case 'CITY':
+            case CITY:
                 ActivateElement({
                     ...elementsActivated,
                     city: !elementsActivated.city
@@ -40,11 +43,15 @@ export const ContextProvider = ({ children }) => {
     return (
         <Context.Provider value={{ 
             countries,
-            satates,
+            states,
+            cities,
             elementsActivated, 
+            poblation,
+            setPoblation,
             setCountries,
             ChangeAnElement,
             setStates,
+            setCities
         }}>
             {children}
         </Context.Provider>
