@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { CITY, COUNTRY, STATE } from "../constants/constants";
+import { CITY, COUNTRY, STATE, SELECCIONA } from "../constants/constants";
 import { Context } from "../context/contex";
 import useFetch from "../hooks/useFetch";
 
@@ -11,7 +11,7 @@ const Select = (props) => {
     message
   } = props;
 
-  const [placeSelect, setCountry] = useState(null);
+  const [placeSelect, setPlace] = useState(null);
 
   const context = useContext(Context);
   const {
@@ -19,7 +19,9 @@ const Select = (props) => {
     ChangeAnElement,
     setStates,
     setCities,
-    setPoblation
+    setPoblation,
+    elementsSelected,
+    SelectAnElement
   } = context;
 
   const {
@@ -33,20 +35,25 @@ const Select = (props) => {
       case COUNTRY:
         data = await handleFetch(`http://localhost:3005/states/${place.id_country}`)
         setStates(data);
+        setCities([]);
+        setPoblation(null);
+        SelectAnElement(COUNTRY, place.name_place);
         break;
       case STATE:
         data = await handleFetch(`http://localhost:3005/cities/${place.id_state}`)
         setCities(data);
+        setPoblation(null);
+        SelectAnElement(STATE, place.name_place);
         break;
       case CITY:
         data = await handleFetch(`http://localhost:3005/cities/poblation/${place.id_city}`)
-        console.log(data)
         setPoblation(data[0].poblation);
+        SelectAnElement(CITY, place.name_place);
         break;
       default:
         break;
     }
-    setCountry(place.name_place)
+    setPlace(place.name_place)
     ChangeAnElement(type)
   }
 
@@ -56,7 +63,33 @@ const Select = (props) => {
         className="select-default"
         onClick={() => ChangeAnElement(type)}
       >
-        {placeSelect ? placeSelect : message}
+        { 
+          (type===COUNTRY) && (
+            elementsSelected.country ? (
+              elementsSelected.country
+            ) : (
+              `${SELECCIONA} ${elementsSelected.country}`
+            )
+          )
+        }
+        { 
+          (type===STATE) && (
+            elementsSelected.state ? (
+              elementsSelected.state
+            ) : (
+              SELECCIONA
+            )
+          )
+        }
+        { 
+          (type===CITY) && (
+            elementsSelected.city ? (
+              elementsSelected.city
+            ) : (
+              SELECCIONA
+            )
+          )
+        }
       </div>
       {elementsActivated[type.toLowerCase()] && (
         <div className="options-select">

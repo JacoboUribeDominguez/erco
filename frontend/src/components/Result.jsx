@@ -10,7 +10,7 @@ const Result = () => {
 
   return (
     <div className={poblation ? "result-container" : "result-container d-none"}>
-      <h4>Población:</h4>
+      <h4>Población</h4>
       <div className="result">
         {poblation}
       </div>

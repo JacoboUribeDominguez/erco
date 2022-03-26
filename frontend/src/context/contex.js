@@ -14,6 +14,42 @@ export const ContextProvider = ({ children }) => {
         state: false,
         city: false,
     })
+    const [elementsSelected, SelectElement] = useState({
+        country: null,
+        state: null,
+        city: null,
+    })
+
+    React.useEffect(() => {
+        console.log(elementsSelected)
+    }, [elementsSelected])
+
+    const SelectAnElement = (element, place) => {
+        switch(element){
+            case COUNTRY:
+                SelectElement({
+                    country: place,
+                    state: null,
+                    city: null
+                })
+                break;
+            case STATE:
+                SelectElement({
+                    ...elementsSelected,
+                    state: place,
+                    city: null,
+                })
+                break;
+            case CITY:
+                SelectElement({
+                    ...elementsSelected,
+                    city: place
+                })
+                break;
+            default:
+                break;
+        }
+    }
 
     const ChangeAnElement = (element) => {
         switch(element){
@@ -47,6 +83,8 @@ export const ContextProvider = ({ children }) => {
             cities,
             elementsActivated, 
             poblation,
+            elementsSelected,
+            SelectAnElement,
             setPoblation,
             setCountries,
             ChangeAnElement,
