@@ -5,10 +5,6 @@ export const Context = createContext();
 
 export const ContextProvider = ({ children }) => {
 
-    const [countries, setCountries] = useState([]);
-    const [states, setStates] = useState([]);
-    const [cities, setCities] = useState([]);
-    const [poblation, setPoblation] = useState(null);
     const [elementsActivated, ActivateElement] = useState({
         country: false,
         state: false,
@@ -78,18 +74,10 @@ export const ContextProvider = ({ children }) => {
 
     return (
         <Context.Provider value={{ 
-            countries,
-            states,
-            cities,
             elementsActivated, 
-            poblation,
             elementsSelected,
             SelectAnElement,
-            setPoblation,
-            setCountries,
             ChangeAnElement,
-            setStates,
-            setCities
         }}>
             {children}
         </Context.Provider>

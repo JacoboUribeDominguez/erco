@@ -1,19 +1,26 @@
-import React, { useContext } from 'react'
+import React from 'react'
+
+//constants
 import { CITY, COUNTRY, STATE } from '../constants/constants';
-import { Context } from '../context/contex';
+
+//css
 import "../styles/form.css";
+
+//components
 import Select from './Select';
-import Wave from '../assets/wave.svg'
 import Result from './Result';
+
+//images
+import Wave from '../assets/wave.svg'
+
+//redux
+import { useSelector } from 'react-redux';
 
 const Form = () => {
 
-  const context = useContext(Context);
-  const {
-    countries,
-    states,
-    cities
-  } = context;
+  const countries = useSelector(state => state.places.countries);
+  const states = useSelector(state => state.places.states);
+  const cities = useSelector(state => state.places.cities);
 
   return (
     <div className="form-container">
@@ -24,17 +31,14 @@ const Form = () => {
           <Select 
             type={COUNTRY} 
             list={countries} 
-            message={"- Selecciona un país -"}
           />
           <Select 
             type={STATE} 
             list={states}
-            message={"- Selecciona un estado -"}
           />
           <Select 
             type={CITY} 
             list={cities}
-            message={"- Selecciona una ciudad -"}
           />
         </div>
         <Result />

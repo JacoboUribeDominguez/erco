@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+
+//constantes
 import { 
   CITY, 
   COUNTRY, 
@@ -7,52 +9,70 @@ import {
   SELECTSTATE,
   SELECTCITY 
 } from "../constants/constants";
+
+//context
 import { Context } from "../context/contex";
+
+//hooks
 import useFetch from "../hooks/useFetch";
+
+//css
 import "../styles/select.css"
+
+//redux
+import {
+  setStates,
+  setCities,
+  setPoblation
+} from '../redux/reducer/placesSlice';
+import { useDispatch } from "react-redux";
 
 const Select = (props) => {
 
+  //props
   const {
     type,
     list,
   } = props;
 
+  //context
   const context = useContext(Context);
   const {
     elementsActivated,
     ChangeAnElement,
-    setStates,
-    setCities,
-    setPoblation,
     elementsSelected,
     SelectAnElement
   } = context;
 
+  //hooks
   const {
     handleFetch
   } = useFetch();
 
+  //redux
+  const dispatch = useDispatch();
+
+  //functions
   const handleClickOption = async (place) => {
     let data = [];
 
     switch(type){
       case COUNTRY:
         data = await handleFetch(`http://localhost:3005/states/${place.id_country}`)
-        setStates(data);
-        setCities([]);
+        dispatch(setStates(data));
+        dispatch(setCities([]));
         setPoblation(null);
         SelectAnElement(COUNTRY, place.name_place);
         break;
       case STATE:
-        data = await handleFetch(`http://localhost:3005/cities/${place.id_state}`)
-        setCities(data);
-        setPoblation(null);
+        data = await handleFetch(`http://localhost:3005/cities/${place.id_state}`);
+        dispatch(setCities(data));
+        dispatch(setPoblation(null));
         SelectAnElement(STATE, place.name_place);
         break;
       case CITY:
         data = await handleFetch(`http://localhost:3005/cities/poblation/${place.id_city}`)
-        setPoblation(data[0].poblation);
+        dispatch(setPoblation(data[0].poblation));
         SelectAnElement(CITY, place.name_place);
         break;
       default:
