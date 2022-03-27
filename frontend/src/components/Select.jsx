@@ -1,4 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
+
+//constantes
 import { 
   CITY, 
   COUNTRY, 
@@ -7,65 +9,87 @@ import {
   SELECTSTATE,
   SELECTCITY 
 } from "../constants/constants";
-import { Context } from "../context/contex";
+
+//hooks
 import useFetch from "../hooks/useFetch";
+
+//css
 import "../styles/select.css"
+
+//redux
+import {
+  setStates,
+  setCities,
+  setPoblation
+} from '../redux/reducer/placesSlice';
+
+import {
+  SelectAnElement,
+  ChangeAnElement,
+} from '../redux/reducer/selectSlice';
+import { useDispatch, useSelector } from "react-redux";
 
 const Select = (props) => {
 
+  //props
   const {
     type,
     list,
   } = props;
 
-  const context = useContext(Context);
-  const {
-    elementsActivated,
-    ChangeAnElement,
-    setStates,
-    setCities,
-    setPoblation,
-    elementsSelected,
-    SelectAnElement
-  } = context;
-
+  //hooks
   const {
     handleFetch
   } = useFetch();
 
+  //redux
+  const dispatch = useDispatch();
+  const elementsSelected = useSelector(state => state.select.elementsSelected);
+  const elementsActivated = useSelector(state => state.select.elementsActivated);
+
+  //functions
   const handleClickOption = async (place) => {
     let data = [];
 
     switch(type){
       case COUNTRY:
         data = await handleFetch(`http://localhost:3005/states/${place.id_country}`)
-        setStates(data);
-        setCities([]);
-        setPoblation(null);
-        SelectAnElement(COUNTRY, place.name_place);
+        dispatch(setStates(data));
+        dispatch(setCities([]));
+        dispatch(setPoblation(null));
+        dispatch(SelectAnElement({
+          element: COUNTRY, 
+          place: place.name_place
+        }));
         break;
       case STATE:
-        data = await handleFetch(`http://localhost:3005/cities/${place.id_state}`)
-        setCities(data);
-        setPoblation(null);
-        SelectAnElement(STATE, place.name_place);
+        data = await handleFetch(`http://localhost:3005/cities/${place.id_state}`);
+        dispatch(setCities(data));
+        dispatch(setPoblation(null));
+        dispatch(SelectAnElement({
+          element: STATE, 
+          place: place.name_place
+        }));
         break;
       case CITY:
         data = await handleFetch(`http://localhost:3005/cities/poblation/${place.id_city}`)
-        setPoblation(data[0].poblation);
-        SelectAnElement(CITY, place.name_place);
+        dispatch(setPoblation(data[0].poblation));
+        dispatch(SelectAnElement({
+          element: CITY, 
+          place: place.name_place
+        }));
         break;
       default:
         break;
     }
-    ChangeAnElement(type)
+    dispatch(ChangeAnElement(type));
   }
 
   return (
     <div className="select-container">
       <div
         className="select-default"
-        onClick={() => ChangeAnElement(type)}
+        onClick={() => dispatch(ChangeAnElement(type))}
       >
         { 
           (type===COUNTRY) && (

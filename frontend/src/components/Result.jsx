@@ -1,12 +1,10 @@
-import React, { useContext } from 'react'
-import { Context } from '../context/contex';
+import React from 'react'
+import { useSelector } from 'react-redux';
 import "../styles/result.css";
 
 const Result = () => {
 
-  const {
-    poblation
-  } = useContext(Context);
+  const poblation = useSelector(state => state.places.poblation);
 
   return (
     <div className={poblation ? "result-container" : "result-container d-none"}>

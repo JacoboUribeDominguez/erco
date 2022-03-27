@@ -1,16 +1,24 @@
-import { useContext, useEffect } from 'react';
+//redux
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { 
+  setCountries 
+} from './redux/reducer/placesSlice';
+
+//style
 import './App.css';
+
+//components
 import Form from './components/Form';
-import { Context } from './context/contex';
+
+//hooks
 import useFetch from './hooks/useFetch';
 
 function App() {
 
-  const {
-    handleFetch
-  } = useFetch();
+  const dispatch = useDispatch();
 
-  const context = useContext(Context);
+  const { handleFetch } = useFetch();
 
   useEffect(() => {
     handleCountries();
@@ -18,7 +26,7 @@ function App() {
 
   const handleCountries = async() => {
     const data = await handleFetch('http://localhost:3005/countries');
-    context.setCountries(data);
+    dispatch(setCountries(data));
   }
 
   return (
