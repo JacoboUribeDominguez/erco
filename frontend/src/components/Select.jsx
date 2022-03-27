@@ -1,17 +1,22 @@
-import React, { useContext, useState } from "react";
-import { CITY, COUNTRY, STATE, SELECCIONA } from "../constants/constants";
+import React, { useContext } from "react";
+import { 
+  CITY, 
+  COUNTRY, 
+  STATE, 
+  SELECTCOUNTRY,
+  SELECTSTATE,
+  SELECTCITY 
+} from "../constants/constants";
 import { Context } from "../context/contex";
 import useFetch from "../hooks/useFetch";
+import "../styles/select.css"
 
 const Select = (props) => {
 
   const {
     type,
     list,
-    message
   } = props;
-
-  const [placeSelect, setPlace] = useState(null);
 
   const context = useContext(Context);
   const {
@@ -53,7 +58,6 @@ const Select = (props) => {
       default:
         break;
     }
-    setPlace(place.name_place)
     ChangeAnElement(type)
   }
 
@@ -68,7 +72,7 @@ const Select = (props) => {
             elementsSelected.country ? (
               elementsSelected.country
             ) : (
-              `${SELECCIONA} ${elementsSelected.country}`
+              SELECTCOUNTRY
             )
           )
         }
@@ -77,7 +81,7 @@ const Select = (props) => {
             elementsSelected.state ? (
               elementsSelected.state
             ) : (
-              SELECCIONA
+              SELECTSTATE
             )
           )
         }
@@ -86,7 +90,7 @@ const Select = (props) => {
             elementsSelected.city ? (
               elementsSelected.city
             ) : (
-              SELECCIONA
+              SELECTCITY
             )
           )
         }
